@@ -440,6 +440,7 @@
     "c"    (emmet-primary-filter emmet-make-commented-html-tag)
     "haml" (emmet-primary-filter emmet-make-haml-tag)
     "hic"  (emmet-primary-filter emmet-make-hiccup-tag)
+	"py"   (emmet-primary-filter emmet-make-python-tag)
     "e"    (emmet-escape-xml)))
 
 (defun emmet-instantiate-lorem-expression (input)
@@ -637,6 +638,18 @@
                     (emmet-indent content)
                   (concat " " content)))
             "]")))
+
+(defun emmet-make-python-tag (tag-name tag-has-body? tag-id tag-classes tag-props tag-txt settings content)
+  "Create Python model"
+  (let* ((id      (emmet-concat-or-empty "name='" tag-id "'"))
+         (props   (emmet-mapconcat-or-empty
+                   "" tag-props ", " ""
+                   (lambda (prop)
+                     (concat (symbol-name (car prop)) "=" (cadr prop)))))
+         (content-multiline? (and content (string-match "\n" content)))
+         (block-tag? (and settings (gethash "block" settings)))
+         (block-indentation? (or content-multiline? (and block-tag? content))))
+    (concat "x = layer." tag-name "(" props id ")]")))
 
 (defun emmet-make-text (tag-maker text)
   (cond

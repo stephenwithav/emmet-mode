@@ -368,5 +368,10 @@
         "h":    "hidden"
       }
     }
+  },
+  "py": {
+    "tags": {
+      "dense":      {"block": false, "selfClosing": false, "defaultAttr": {"units": ""}}
+    }
   }
 }
